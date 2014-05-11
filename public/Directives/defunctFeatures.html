@@ -1,0 +1,86 @@
+﻿<div data-ng-if="formData.Id || formData.DefunctId">
+    <h4 class="page-header">Adicionales Agregados</h4>
+    <div data-itc-grid="true"
+        data-column-names="['Description','Price|currency','Quantity','Amount|currency']" 
+        data-column-descriptions="['Nombre','Precio','Cantidad','Subtotal']"
+        data-custom-source="1"
+        data-source="ctrl.getAssignedFeatures(filter,success)"
+        data-hide-default-actions="1"
+        data-scope-wrapper="ctrl">
+        <input type="button" class="btn btn-danger" value="Quitar" data-ng-click="scopeWrapper.showRemoveFeatureModal(record)"/>                             
+    </div>
+</div>
+<div style="margin-top:20px;">
+    <h4 class="page-header">Adicionales Disponibles</h4>
+    <div data-itc-grid="true"
+         data-column-names="['Name','Price|currency']" 
+         data-column-descriptions="['Nombre','Precio']"
+         data-custom-source="1"
+         data-source="ctrl.getFeatures(filter,success)"
+         data-hide-default-actions="1"
+         data-scope-wrapper="ctrl">
+        <input type="button" data-ng-show="!record.IsAssigned" class="btn btn-primary" value="Agregar" data-ng-click="scopeWrapper.showAssignFeatureModal(record)"/>  
+        <span data-ng-show="record.IsAssigned">Asignado</span>                           
+    </div>
+</div>
+<div data-bootstrap-modal="true" 
+     data-show-modal="ctrl.assignFeatureModalVisible" 
+     data-modal-title="Agregar Adicional"
+     data-confirmation-button="Agregar" 
+     data-cancel-button="Cancelar"
+     data-confirmation-button-disabled="ctrl.assignFeatureButtonDisabled" 
+     data-confirmation-callback="ctrl.assignFeatureModal()">
+    <form data-ng-hide="ctrl.assignFeatureButtonDisabled" name="assignFeatureForm" class="form-horizontal" novalidate style="margin: 0 20px;">
+        <div class="form-group">
+            <span>El concepto se agregara a las facturas abiertas del cliente. Puede editar facturas desde la seccion "Facturas"</span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Adicional: </label> <span>{{ctrl.assignFeature.name}}</span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Precio: </label> <span>{{ctrl.assignFeature.price | currency}}</span>
+        </div>
+        <div class="form-group" data-ng-class="{'has-error':(assignFeatureForm.Quantity.$dirty || ctrl.assignFeature.submitted) && assignFeatureForm.Quantity.$invalid }">
+            <label class="control-label" for="Quantity">Cantidad</label>
+            <div>
+                <input type="text" name="Quantity" class="form-control itc-number" data-ng-required="true" placeholder="Cantidad" data-ng-model="ctrl.assignFeature.quantity" />
+                <span class="help-block" data-ng-show="(assignFeatureForm.Quantity.$dirty || ctrl.assignFeature.submitted) && assignFeatureForm.Quantity.$error.required">Requerido</span>
+                <span class="help-block" data-ng-show="(assignFeatureForm.Quantity.$dirty || ctrl.assignFeature.submitted) && assignFeatureForm.Quantity.$error.pattern">N&uacute;mero Inv&aacute;lido</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Subtotal: </label> <span>{{(ctrl.assignFeature.price*ctrl.assignFeature.quantity) | currency}}</span>
+        </div>
+    </form>
+    <div data-ng-show="ctrl.assignFeatureButtonDisabled">
+        <h5>Debe asignar un cliente antes de agregar adicionales.</h5>
+    </div>
+</div>
+<div data-bootstrap-modal="true" 
+     data-show-modal="ctrl.removeFeatureModalVisible" 
+     data-modal-title="Remover Adicional"
+     data-confirmation-button="Remover" 
+     data-cancel-button="Cancelar"
+     data-confirmation-callback="ctrl.removeFeatureModal()">
+    <div style="margin: 0 20px">
+        Ud removera el siguiente adicional:
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Descripci&oacute;n</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ctrl.removeFeature.name}}</td>
+                    <td>{{ctrl.removeFeature.price | currency}}</td>
+                    <td>{{ctrl.removeFeature.quantity}}</td>
+                    <td>{{ctrl.removeFeature.subtotal | currency}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

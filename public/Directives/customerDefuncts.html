@@ -1,0 +1,149 @@
+﻿<h4 data-ng-if="formData.Id" class="page-header">{{ fromCustomer && 'Difuntos' || 'Clientes' }} asignados</h4>
+
+<div data-ng-if="formData.Id" data-itc-grid="true"
+     data-column-names="['GridName','IsAssigned|yes','CustomerKinship','IsPrincipal|yes']" 
+     data-column-descriptions="['Nombre','CoTitular','Parentezco','Titular Responsable']"
+     data-custom-source="1"
+     data-source="getAssignedCustomerDefuncts(filter,success)"
+     data-hide-default-actions="1"
+     data-row-class="{'active': record.IsAssigned, 'success': record.IsPrincipal}"
+     data-scope-wrapper="outterScopeWrapper">
+    <input type="button" class="btn btn-default" value="Ver" data-ng-click="scopeWrapper.showDetails(record)"/>
+    <input data-ng-show="record.IsAssigned" type="button" class="btn btn-danger" value="Desasignar" data-ng-click="scopeWrapper.showDeassignModal(record)"/>
+</div>
+
+<div style="margin-top: 20px;">
+    <h4 class="page-header">{{ fromCustomer && 'Difuntos' || 'Clientes' }} para asignar</h4>
+    
+    <div style="margin-bottom: 10px;" data-ng-show="!fromCustomer">
+       <a href="/Customers#/create" class="btn btn-primary btn-sm" target="_blank">Crear Cliente</a>
+        <input type="button" class="btn btn-info btn-sm" data-ng-click="refreshGrids()" value="Refrescar Lista" />        
+    </div>
+
+
+    <div data-itc-grid="true"
+         data-column-names="['GridName','IsAssigned|yes','IsPrincipal|yes']" 
+         data-column-descriptions="['Nombre','CoTitular','Titular']"
+         data-custom-source="1"
+         data-source="getCustomerDefuncts(filter,success)"
+         data-row-class="{'active': record.IsAssigned, 'success': record.IsPrincipal}"
+         data-hide-default-actions="1"
+         data-scope-wrapper="outterScopeWrapper">
+        <input type="button" class="btn btn-default" value="Ver" data-ng-click="scopeWrapper.showDetails(record)"/>
+        <input data-ng-show="!record.IsAssigned" type="button" class="btn btn-primary" value="Asignar" data-ng-click="scopeWrapper.showAssignModal(record)"/>
+        <input data-ng-show="record.IsAssigned" type="button" class="btn btn-danger" value="Desasignar" data-ng-click="scopeWrapper.showDeassignModal(record)"/>                             
+    </div>
+</div>
+
+<div class="ng-cloak" data-bootstrap-modal="true" 
+     data-show-modal="showCustomerDefunctDetailsModal" 
+     data-modal-title="Ver Detalle"
+     data-cancel-button="Cerrar">
+    <div data-ng-show="fromCustomer">
+        <h4 class="page-header">Datos del difunto</h4>
+        <ul class="list-unstyled">
+            <li><strong>Nombre: </strong><span>{{customerDefunctData.Name}}</span></li>
+            <li><strong>Fecha de Nacimiento: </strong><span>{{customerDefunctData.BirthDate | date:'shortDate'}}</span></li>
+            <li><strong>Fecha de Fallecimiento: </strong><span>{{customerDefunctData.DeathDateTime | date:'shortDate'}}</span></li>
+            <li><strong>Lugar de Fallecimiento: </strong><span>{{customerDefunctData.DeathPlace}}</span></li>
+            <li><strong>Registro Civil: </strong><span>{{customerDefunctData.CivilRegistry}}</span></li>
+            <li><strong>Domicilio Velatorio: </strong><span>{{customerDefunctData.WakeAddress}}</span></li>
+            <li><strong>Registro Policial: </strong><span>{{customerDefunctData.PoliceLicense}}</span></li>
+            <li><strong>Ataud: </strong><span>{{customerDefunctData.CoffinName}}</span></li>
+        </ul>
+        <div data-ng-show="customerDefunctData.Customers.length" style="margin-top: 20px;">
+            <h4 class="page-header">Clientes Asignados</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Parentezco</th>
+                        <th>Titular Responsable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="customer in customerDefunctData.Customers">
+                        <td>{{customer.CustomerName}}</td>
+                        <td>{{customer.CustomerKinship}}</td>
+                        <td>{{customer.IsPrincipal | booleanTranslate}}</td>
+                    </tr>
+                </tbody>
+            </table>   
+        </div>
+    </div>
+    <div data-ng-show="!fromCustomer">
+        <h4 class="page-header">Datos del cliente</h4>
+        <ul class="list-unstyled">
+            <li><strong>Nombre: </strong><span>{{customerDefunctData.Name}}</span></li>
+            <li><strong>DNI: </strong><span>{{customerDefunctData.IdentityNumber}}</span></li>
+            <li><strong>Ciudad: </strong><span>{{customerDefunctData.CityName}}</span></li>
+            <li><strong>Direcci&oacute;n: </strong><span>{{customerDefunctData.Address}}</span></li>
+            <li><strong>Nro. de Tel&eacute;fono: </strong><span>{{customerDefunctData.PhoneNumber}}</span></li>
+            <li><strong>Direcci&oacute;n Trabajo: </strong><span>{{customerDefunctData.WorkAddress}}</span></li>
+            <li><strong>Nro. Tel&eacute;fono Trabajo: </strong><span>{{customerDefunctData.WorkPhoneNumber}}</span></li>
+        </ul>
+        <div data-ng-show="customerDefunctData.Defuncts.length" style="margin-top: 20px;">
+            <h4 class="page-header">Difuntos Asignados</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Parentezco</th>
+                        <th>Titular</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="customer in customerDefunctData.Defuncts">
+                        <td>{{customer.DefunctName}}</td>
+                        <td>{{customer.CustomerKinship}}</td>
+                        <td>{{customer.IsPrincipal | booleanTranslate}}</td>
+                    </tr>
+                </tbody>
+            </table>   
+        </div>
+    </div>
+</div>
+                 
+<div class="ng-cloak" data-bootstrap-modal="true" 
+     data-show-modal="showCustomerDefunctAssignModal" 
+     data-modal-title="Asignar Cliente a Difunto"
+     data-confirmation-button="Asignar" 
+     data-cancel-button="Cerrar"
+     data-confirmation-button-disabled="confirmButtonDisabled" 
+     data-confirmation-callback="assignCustomerToDefunct()">
+    <div class="container-fluid" data-ng-show="formValidations.$valid || (formData && formData.Id)">
+        <div data-ng-form="assignForm" name="assignForm" class="form-horizontal" novalidate style="margin-left: 20px;">
+            <div class="form-group" data-ng-class="{'has-error': (assignForm.customerKinship.$dirty || outterScopeWrapper.submitted) && assignForm.customerKinship.$invalid }">
+                <label class="control-label" for="customerKinship">Parentezco:</label>
+                <div style="width:250px;">
+                    <input type="text" name="customerKinship" class="form-control" data-ng-required="true" data-ng-model="outterScopeWrapper.assignData.customerKinship" placeholder="Parentezco"/>
+                    <span class="help-block" data-ng-show="(assignForm.customerKinship.$dirty || outterScopeWrapper.submitted) && assignForm.customerKinship.$invalid">Requerido</span>
+                </div>
+            </div>
+            <div class="form-group" data-ng-show="outterScopeWrapper.assignData.showCheckbox">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" data-ng-model="outterScopeWrapper.assignData.isPrincipal">
+                        Titular Responsable (solo 1 por difunto)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" data-ng-show="!outterScopeWrapper.assignData.showCheckbox">
+                <label>Principal Titular: Si. </label>
+                <span class="text-danger">Por defecto el primer cliente asignado a un difunto se marcara como principal responsable (podr&aacute; transferir la titularidad cuando asigne un cliente mas)</span>
+            </div>
+        </div>
+    </div>
+    <div data-ng-hide="formValidations.$valid || (formData && formData.Id)">
+        <h5>Debe llenar los datos requeridos del formulario "Alta de {{fromCustomer && 'clientes' || 'difuntos'}}" antes de realizar asignaciones</h5>
+    </div>
+</div>
+
+<div class="ng-cloak" data-bootstrap-modal="true" 
+     data-show-modal="showCustomerDefunctDeassignModal" 
+     data-modal-title="Desasignar Cliente a Difunto"
+     data-confirmation-button="Desasignar" 
+     data-cancel-button="Cancelar"
+     data-confirmation-callback="deassignCustomerToDefunct()">
+    <h5>Esta seguro que desea desasignar el cliente del difunto?</h5>
+</div>

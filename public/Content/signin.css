@@ -1,0 +1,100 @@
+﻿body {
+          padding-top: 40px;
+          padding-bottom: 40px;
+        }
+        .form-signin {
+          max-width: 330px;
+          padding: 0 15px;
+          margin: 0 auto;
+          color: #eee;
+        }
+        .logon-top {
+    background-color: #ECF0F3;
+    width:100%;
+    height:150px;
+    color:white;
+    text-align:center;
+
+}
+
+.logon-top div{
+    
+    border:1px solid white;
+    width:25%;
+    margin:0 auto;
+    height:180px;
+}
+
+    .logon-top div h2 {
+        font-style:italic;
+        font-size:30px;
+    }
+
+.logon-bottom {
+    background-color:#FFF;
+    width:100%;
+    color:white;
+}
+    .logon-bottom div, .logon-top div {
+        background-color: #5e9669;
+    }
+
+.logon-bottom div {
+    border:1px solid white;
+    border-top:10px solid white;
+    width:25%;
+    margin:0 auto;
+    text-align:center;
+}
+
+#loginImg {
+    position:relative;
+    margin-top:-90px;
+    border:10px solid white;
+}
+
+.form-signin {
+    position:relative;
+    margin-bottom:20px;
+}
+.form-signin input{
+   margin-top:20px;
+}
+
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+          margin-bottom: 10px;
+        }
+        .form-signin .checkbox {
+          font-weight: normal;
+        }
+        .form-signin .form-control {
+          position: relative;
+          font-size: 16px;
+          height: auto;
+          padding: 10px;
+          -webkit-box-sizing: border-box;
+             -moz-box-sizing: border-box;
+                  box-sizing: border-box;
+        }
+        .form-signin .form-control:focus {
+          z-index: 2;
+        }
+        .form-signin input[type="text"] {
+          color:black;
+          margin-bottom: -1px;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        .form-signin input[type="password"] {
+          margin-bottom: 10px;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+.forgot {
+    color:white;
+    font-weight:bold;
+}
+#footer a {
+    color: #428bca;
+}

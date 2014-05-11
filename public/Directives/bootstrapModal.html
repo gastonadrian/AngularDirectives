@@ -1,0 +1,40 @@
+﻿<div class="bootstrap-modal modal fade in" data-ng-show="showModal">
+    <div class="modal-dialog">
+        <div class="modal-content {{stateClass}}" data-ng-class="cssClass" >
+            <div class="modal-header">
+                <button type="button" class="close" data-ng-show="(!!confirmationButton && !confirmationButtonDisabled) || !!cancelButton" data-ng-click="cancel()">×</button>
+                <h4>{{modalTitle}}</h4>
+            </div>
+            <div class="modal-body">
+                <div data-ng-transclude="true" data-ng-class="{{stateClass}}"></div>
+            </div>
+            <div class="modal-footer" data-ng-show="(!!confirmationButton && !confirmationButtonDisabled) || !!cancelButton">
+                <input type="button" class="btn btn-primary" value="{{confirmationButton}}" data-ng-click="confirm()" data-ng-hide="confirmationButtonDisabled || !confirmationButton" />
+                <input type="button" class="btn btn-default" value="{{cancelButton}}" data-ng-click="cancel()" data-ng-hide="cancelButtonDisabled || !cancelButton" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade in ng-cloak" data-ng-show="showModal"></div>
+
+
+<!--
+    USAGE:
+    <div class="ng-cloak" data-bootstrap-modal="true" 
+     data-show-modal="showSendATestModal" 
+     data-modal-title="Send a Test"
+     data-confirmation-button="Send a Test" 
+     data-cancel-button="Cancel"
+     data-confirmation-callback="sendATest()"
+     data-css-class="sendATestModal">
+        <div class="form-vertical" data-ng-form="true" name="sendatestform">
+            <div class="control-group" data-ng-class="{error: submitted && sendatestform.emailaddress.$error.required}">
+                <label>Send To:</label>
+                <textarea name="emailaddress" data-ng-required="true" data-ng-model="data.emailAddress"></textarea>
+                <span class="help-inline" data-ng-show="submitted && sendatestform.emailaddress.$error.required">Send To address is required</span>
+            </div>
+            <div id="sendATestValidationMessage" class="control-group error">
+                <span class="help-inline">{{data.sendATestValidationErrors}}</span>
+            </div>
+        </div>
+</div>-->
